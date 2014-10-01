@@ -8,19 +8,9 @@ function bmi($height, $mass){//身長と体重
 	$mass = $mass / ($height * $height);
 	return $mass; // BMI値を返す
 }
-?>
 
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-	<meta charset="UTF-8">
-	<title>関数の動作確認</title>
-</head>
-<body>
+function process_form(){
 
-<?php
-
-if(isset($_POST['_submit_check'])){
 $bmi = bmi($_POST['height'], $_POST['mass']);
 
 $bmi = round($bmi, 1);
@@ -33,10 +23,11 @@ if($bmi < 18.5){
 	print "太り過ぎです";
 	}else {
 	print "標準です";
+	}
 }
-?>
 
-<?php }else{ ?>
+function show_form(){
+?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
 身長:
@@ -47,7 +38,35 @@ if($bmi < 18.5){
 <input type="submit" value="BMI値計算">
 <input type="hidden" name="_submit_check" value="1">
 </form>
-<?php } ?>
+
+<?php
+}
+?>
+
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8">
+	<title>関数の動作確認</title>
+</head>
+<body>
+
+<?php
+
+if(isset($_POST['_submit_check'])){
+
+process_form(); // BMI値を計算する
+
+echo "<br /><a href=" .$_SERVER['SCRIPT_NAME'] .">戻る</a>";
+
+
+}else{ 
+
+	show_form(); // 身長と体重を入力するフォームを表示する
+
+
+} ?>
 
 </body>
 </html>
