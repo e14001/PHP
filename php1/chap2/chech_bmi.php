@@ -50,6 +50,12 @@ function show_form(){
 	<meta charset="UTF-8">
 	<title>関数の動作確認</title>
 </head>
+<script>
+	function home(){
+		//window.alert("button click");
+		location.reload();
+	}
+</script>
 <body>
 
 <?php
@@ -58,8 +64,8 @@ if(isset($_POST['_submit_check'])){
 
 process_form(); // BMI値を計算する
 
-echo "<br /><a href=" .$_SERVER['SCRIPT_NAME'] .">戻る</a>";
-
+//echo "<br /><a href=" .$_SERVER['SCRIPT_NAME'] .">戻る</a>";
+echo "<br /><button onclick='home()'>戻る</button>";
 
 }else{ 
 
