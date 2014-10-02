@@ -17,8 +17,8 @@ $key = mt_rand(1,5);
 	<title>おみくじ</title>
 </head>
 <body>
-	// 結果を出力
-<p>あなたが引いたおみくじの結果は、[<?php print $uranai[$key]; ?> です</p>
+<?php //結果を出力 ?>
+<p>あなたが引いたおみくじの結果は、[<?php print $uranai[$key]; ?>] です</p>
 <!--<a href="<php echo $SERVER['SCRIPT_NAME']; ?>"もう一度</a>-->
 <button onclick="location.reload()">もう一度</button>
 
