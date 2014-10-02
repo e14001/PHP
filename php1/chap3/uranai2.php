@@ -9,7 +9,7 @@ $uranai[6] = "末吉です。PHPの勉強をするといいことがあるでし
 $uranai[7] = "大凶です。今日は自宅でゆっくり過ごしてください。s";
 
 // mt_rand() 関数の結果を$key変数に記憶
-$key = mt_rand(1,5); 
+$key = mt_rand(1,7); 
 ?>
 
 <!DOCTYPE html>
