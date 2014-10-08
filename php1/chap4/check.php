@@ -24,6 +24,18 @@ if(isset($_POST['pref'])){
 	$prefecture = $todoufuken[$_POST['pref']];
 }
 
+$shumi = array(1 =>"ネット", 2 =>"読書", 3 =>"ショッピング", 4 =>"サイクリング", 5 =>"投資");
+
+$hobbys[] = "不明";
+
+if(isset($_POST['hobby'])){
+$hobbys = array();
+foreach($_POST['hobby'] as $hobby){
+	$hobbys[] = $shumi[$hobby];
+	}
+}
+
+var_dump($hobbys);
 ?>
 
 <!DOCTYPE html>
@@ -39,6 +51,11 @@ if(isset($_POST['pref'])){
 	<li>備考:<br /><?php echo $note; ?></li>
 	<li>性別:<br ?><?php echo $sex; ?></li>
 	<li>都道府県:<br /><?php echo $prefecture; ?></li>
+	<li>趣味:<br /><?php $shumi_kaji = '<ul><li>';
+						$shumi_kaji .= implode('</li><li>', $hobbys);
+						$shumi_kaji .= '</li></ul>';
+						echo $shumi_kaji; 
+?></li>
 </ul>
 
 <p>
