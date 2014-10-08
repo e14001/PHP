@@ -1,6 +1,12 @@
 <?php
 
-var_dump($_POST);
+//var_dump($_POST);
+
+if(!isset($_POST['submit'])){
+	$url = $_SERVER['SCRIPT_NAME'];
+	str_replace('check.php', 'form.php', $url);
+	header("location: http://localhost/php/php1/chap4/form.php");
+}
 
 $name = $_POST['name'];
 
@@ -35,7 +41,7 @@ foreach($_POST['hobby'] as $hobby){
 	}
 }
 
-var_dump($hobbys);
+//var_dump($hobbys);
 ?>
 
 <!DOCTYPE html>
