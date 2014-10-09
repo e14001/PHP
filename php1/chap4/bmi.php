@@ -14,12 +14,12 @@ function validate_form(){
 
 	//身長
 	if($_POST['height'] != strval(floatval($_POST['height']))){
-		$errors[] = '身長を正しく入力してください';
+		$errors[] = '身長を正しく入力してください。';
 	}
 
 	//体重
 	if($_POST['mass'] != strval(floatval($_POST['mass']))){
-		$errors[] = '体重を正しく入力してください';
+		$errors[] = '体重を正しく入力してください。';
 	}
 
 	return $errors;
@@ -38,7 +38,7 @@ function validate_form(){
 if(isset($_POST["submit"])){
 	if($form_errors = validate_form()){
 	//エラーメッセージ表示
-	$error_text = '<tr><td>次のエラーを修正してください';
+	$error_text = '<tr><td>次のエラーを修正してください。';
 	$error_text .= '</td><ul><li>';
 	$error_text .= implode('</li><li>', $form_errors);
 	$error_text .= '</li></ul></td></tr>';
@@ -48,14 +48,24 @@ if(isset($_POST["submit"])){
 	//BMI値を計算する
 	$bmi = bmi($_POST["height"], $_POST["mass"]);
 	//BMI値を四捨五入して、小数点第１位まで求める
-	print "あなたのBMI値は" .h($bmi) ."です";
+	$bmi = round($bmi, 1);
+
+	print "あなたのBMI値は" .h($bmi) ."です。<br />";
 	//判定処理
 	//BMI値 < 18.5 => 痩せ過ぎです
 	//BMI値 > 25 => 太り過ぎです
 	//それ以外 => 標準です
+
+	if($bmi < 18.5){
+		print "<div style='color:blue'>痩せ過ぎです。</div>";
+	}else if($bmi > 25){
+		print "<div style='color:red'>太り過ぎです。</div>";
+	}else{
+		print "<div style='color:green'>標準です。</div>";
+	}
 }
 }else{
-	print "BMI値を計算します";
+	print "BMI値を計算します。";
 }
 ?>
 
