@@ -9,6 +9,22 @@ function h($str){
 	return htmlspecialchars($str, ENT_QUOTES, "UTF-8");
 }
 
+function validate_form(){
+	$errors = array();
+
+	//身長
+	if($_POST['height'] != strval(floatval($_POST['height']))){
+		$errors[] = '身長を正しく入力してください';
+	}
+
+	//体重
+	if($_POST['mass'] != strval(floatval($_POST['mass']))){
+		$errors[] = '体重を正しく入力してください';
+	}
+
+	return $errors;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -20,9 +36,24 @@ function h($str){
 <body>
 <?php
 if(isset($_POST["submit"])){
+	if($form_errors = validate_form()){
+	//エラーメッセージ表示
+	$error_text = '<tr><td>次のエラーを修正してください';
+	$error_text .= '</td><ul><li>';
+	$error_text .= implode('</li><li>', $form_errors);
+	$error_text .= '</li></ul></td></tr>';
+	echo $error_text;
+
+	}else{
 	//BMI値を計算する
 	$bmi = bmi($_POST["height"], $_POST["mass"]);
+	//BMI値を四捨五入して、小数点第１位まで求める
 	print "あなたのBMI値は" .h($bmi) ."です";
+	//判定処理
+	//BMI値 < 18.5 => 痩せ過ぎです
+	//BMI値 > 25 => 太り過ぎです
+	//それ以外 => 標準です
+}
 }else{
 	print "BMI値を計算します";
 }
