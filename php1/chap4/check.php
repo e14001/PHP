@@ -2,6 +2,10 @@
 
 //var_dump($_POST);
 
+function h($str){
+	return htmlspecialchars($str,ENT_QUOTES,"UTF-8");
+}
+
 if(!isset($_POST['submit'])){
 	$host =$_SERVER['SERVER_NAME'];
 	$url = $_SERVER['SCRIPT_NAME'];
@@ -9,11 +13,11 @@ if(!isset($_POST['submit'])){
 	header("location: http://{$host}{$url}");
 }
 
-$name = $_POST['name'];
+$name = h($_POST['name']);
 
-$password = $_POST['password'];
+$password = h($_POST['password']);
 
-$note = nl2br($_POST['note']);
+$note = h(nl2br($_POST['note']));
 
 $seibetsu = array(1 =>"男性", 2 =>"女性", 9 =>"回答しない");
 
