@@ -3,9 +3,10 @@
 //var_dump($_POST);
 
 if(!isset($_POST['submit'])){
+	$host =$_SERVER['SERVER_NAME'];
 	$url = $_SERVER['SCRIPT_NAME'];
-	str_replace('check.php', 'form.php', $url);
-	header("location: http://localhost/php/php1/chap4/form.php");
+	$url = str_replace('check.php', 'form.php', $url);
+	header("location: http://{$host}{$url}");
 }
 
 $name = $_POST['name'];
