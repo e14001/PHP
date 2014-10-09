@@ -1,6 +1,6 @@
 <?php
 
-var_dump($_POST);
+//var_dump($_POST);
 
 ?>
 
@@ -39,7 +39,7 @@ var_dump($_POST);
 	<input type="checkbox" name="hobby[]" value="5">投資
 	<br />
 		
-	<input type="submit" value="データ送信">
+	<input type="submit" name="submit" value="データ送信">
 	</form>
 </body>
 </html>
