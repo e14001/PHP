@@ -29,6 +29,7 @@ require_once("common.php");
 	</form>
 	<?php
 	$records = bbs_read();
+	$records = array_reverse($records);
 	foreach($records as $key => $record){
 
 	?>
