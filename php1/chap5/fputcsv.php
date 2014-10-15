@@ -17,3 +17,4 @@ $result = fputcsv($handle, $csv);
 
 // ファイルを閉じる
 fclose($handle);
+?>
