@@ -2,9 +2,12 @@
 
 
 function check(){
+
+	$errors = array();
+
 	// 名前の入力チェック
 	if(!isset($_POST["name"])){
-		$errors["name"] = "名前が入力されていません
+		$errors["name"] = "名前が入力されていません";
 	}elseif(mb_strlen($_POST["name"]) == 0){
 		$errors["name"] = "名前が入力されていません";
 	}elseif(mb_strlen($_POST["name"]) > 20){
