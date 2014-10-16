@@ -1,11 +1,7 @@
 <?php
 
-session_start();
-
 require_once("common.php");
 require_once('check.php');
-
-$_SESSION['write'] = false;
 
 $errors = array();
 
@@ -17,15 +13,16 @@ if(isset($_POST["submit"])){
 
 	// エラーが無ければ書き込み処理に進む
 	if(count($errors) == 0){
-		if(!$_SESSION['write']){
 		$result = bbs_write($_POST);
-		$_SESSION['write'] = true;
 		if(!$result){
 			$errors["result"] = "書き込みに失敗しました";
+			}else{
+				header("Location: http://". $_SERVER['HTTP_HOST']. $_SERVER['SCRIPT_NAME']);
+				exit;
 			}
 		}
 	}
-}
+
 
 ?>
 
