@@ -52,7 +52,7 @@ if(isset($_POST["submit"])){
 	<h1>ひよこ掲示板 - 投稿エラー</h1>
 	<ul class="error">
 		<?php
-		foreach($errors as $errors){
+		foreach($errors as $error){
 		?>
 		<li><?php print $error; ?></li>
 		<?php
