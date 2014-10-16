@@ -1,5 +1,21 @@
 <?php
 require_once("common.php");
+require_once('check.php');
+
+// submitボタンが押されたら書き込み
+if(isset($_POST["submit"])){
+	//フォームに入力された値のチェック
+	$errors = check();
+
+	// エラーが無ければ書き込み処理に進む
+	if(count($errors) == 0){
+		$result = bbs_write($_POST);
+		if(!$result){
+			$errors["result"] = "書き込みに失敗しました";
+		}
+	}
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -16,11 +32,21 @@ require_once("common.php");
 		border-top: 1px dashed #555;
 		margin-top: 10px;
 	}
+	ul.error{color:red;}
 	</style>
 </head>
 <body>
 	<h1>ひよこ掲示板</h1>
-	<form action="write.php" method="post">
+	<ul class="error">
+		<?php
+		foreach($errors as $error){
+		?>
+		<li><?php print $error; ?></li>
+		<?php
+		}
+		?>
+		</ul>
+	<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>" method="post">
 		名前<br />
 		<input type="text" name="name" value="" size="24"><br />
 		コメント<br />
