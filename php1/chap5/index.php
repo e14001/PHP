@@ -80,9 +80,7 @@ function check(){
 		名前<br />
 		<input type="text" name="name" value="<?php print $defaults['name']; ?>" size="24"><br />
 		コメント<br />
-		<textarea name="comment" cols="40" rows="3">
-		<?php print $defaults['comment']; ?>
-		</textarea><br />
+		<textarea name="comment" cols="40" rows="3"><?php print $defaults['comment']; ?></textarea><br />
 		<input type="submit" name="submit" value="書き込み"><br />
 	</form>
 	<?php
