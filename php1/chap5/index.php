@@ -8,6 +8,9 @@ $errors = array();
 // submitボタンが押されたら書き込み
 if(isset($_POST["submit"])){
 
+	//フォームに入力された値を$defaultsに待機
+	$defaults = $_POST;
+
 	//フォームに入力された値のチェック
 	$errors = check();
 
@@ -21,9 +24,11 @@ if(isset($_POST["submit"])){
 				exit;
 			}
 		}
+	}else{
+		$defaults = array();
+		$defaults['name'] = '';
+		$defaults['comment'] = '';
 	}
-
-
 ?>
 
 <!DOCTYPE html>
@@ -71,11 +76,13 @@ function check(){
 		?>
 		</ul>
 	<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>" 
-	method="post" name="fm" onsubmit="return check()">
+	method="post" name="fm">
 		名前<br />
-		<input type="text" name="name" value="" size="24"><br />
+		<input type="text" name="name" value="<?php print $defaults['name']; ?>" size="24"><br />
 		コメント<br />
-		<textarea name="comment" cols="40" rows="3"></textarea><br />
+		<textarea name="comment" cols="40" rows="3">
+		<?php print $defaults['comment']; ?>
+		</textarea><br />
 		<input type="submit" name="submit" value="書き込み"><br />
 	</form>
 	<?php
