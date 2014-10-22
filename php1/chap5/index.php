@@ -42,6 +42,22 @@ if(isset($_POST["submit"])){
 	}
 	ul.error{color:red;}
 	</style>
+
+<script type= "text/javascript" src="CheckUtil.js"></script>
+<script type= "text/javascript">
+<!--
+
+function check(){
+	var c = new CheckUtil();
+
+	c.requiredCheck(document.fm.name.value, "名前");
+	c.requiredCheck(document.fm.comment.value, "コメント");
+
+	return c.getErrors();
+}
+//-->
+</script>
+
 </head>
 <body>
 	<h1>ひよこ掲示板</h1>
@@ -54,7 +70,8 @@ if(isset($_POST["submit"])){
 		}
 		?>
 		</ul>
-	<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>" method="post">
+	<form action="<?php print $_SERVER['SCRIPT_NAME']; ?>" 
+	method="post" name="fm" onsubmit="return check()">
 		名前<br />
 		<input type="text" name="name" value="" size="24"><br />
 		コメント<br />
