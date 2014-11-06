@@ -80,7 +80,9 @@ foreach($rows as $row){
 <input type="text" name="key" size='10' />
 <input type="submit" name='submit' value="検索" />
 </form>
+<hr />
 
+<?php if(count($rows) > 0) : ?>
 <table border='1'>
 	<tr>
 	<th>社員番号</th>
@@ -95,6 +97,7 @@ foreach($rows as $row){
 	</tr>
 
 <?php foreach($rows as $row){ ?>
+
 	<tr>
 	<td><?php echo $row['empno']; ?></td>
 	<td><?php echo $row['ename']; ?></td>
@@ -108,6 +111,9 @@ foreach($rows as $row){
 	</tr>
 <?php } ?>
 </table>
+<?php else : ?>
+<p>データはありませんでした</p>
+<?php endif; ?>
 
 </body>
 </html>
