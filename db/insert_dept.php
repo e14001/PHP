@@ -1,9 +1,11 @@
 <?php
 require_once 'MDB2.php';
+require_once 'check.php';
+require_once 'common.php';
 
-$user = 'test';
-$pass = 'pass';
-$dbname = 'testphp';
+$user = 'test'; //ユーザー名
+$pass = 'pass'; //パスワード
+$dbname = 'testphp'; //データベース名
 
 // データベースへの接続
 $db = MDB2::connect ("mysql://$user:$pass@localhost/$dbname");
@@ -30,8 +32,8 @@ if(isset($_POST['submit'])){
 $defaults = $_POST;
 
 // フォームに入力された値のチェック
-//$errors = check();
-$errors = array();
+$errors = check();
+//$errors = array();
 
 // エラーがなければ追加処理
 if(count($errors) == 0){
@@ -70,14 +72,32 @@ foreach($rows as $row){
 <head>
 	<meta charset="UTF-8">
 	<title>department表について</title>
+<style>
+	ul.error{
+		color:red;
+	}
+</style>
 </head>
 <body>
 
 <form action="<?php echo$_SERVER['SCRIPT_NAME']; ?>" method='POST'>
-部門名:<input type="text" name="dname" value='' />
-場所:<input type="text" name="loc" value='' />
+部門名:<input type="text" name="dname" value='' size='14' />
+場所:<input type="text" name="loc" value='' size='10' />
 <input type="submit" name="submit" value='追加' />
 </form>
+
+<?php if(isset($errors) > 0) : ?>
+<ul class="error">
+<?php
+foreach($errors as $msg){
+?>
+<li><?php print $msg; ?></li>
+<?php
+}
+?>
+</ul>
+<?php endif; ?>
+
 <hr />
 <table border='1'>
 <tr>
@@ -87,9 +107,9 @@ foreach($rows as $row){
 </tr>
 <?php foreach($rows as $row){ ?>
 <tr>
-<td><?php echo $row['deptno']; ?></td>
-<td><?php echo $row['dname']; ?></td>
-<td><?php echo $row['loc']; ?></td>
+<td><?php echo h($row['deptno']); ?></td>
+<td><?php echo h($row['dname']); ?></td>
+<td><?php echo h($row['loc']); ?></td>
 </tr>
 <?php } ?>
 </table>

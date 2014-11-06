@@ -11,6 +11,22 @@ $db = MDB2::connect ("mysql://$user:$pass@localhost/$dbname");
 // 失敗するとエラーメッセージを表示して終了
 if(MDB2::isError($db)){die("Can't connect:" . $db->getMessage()); }
 
+//検索ボタンが押されたら検索
+if(isset($_POST['submit'])){
+	if(isset($_POST['key']) && mb_strlen($_POST['key']) > 0){
+		$key = $_POST['key'];
+
+	}else{
+	$key = '';
+
+		echo '検索キーが指定されていない<br />';
+	}
+
+}else{
+	$key = '';
+
+}
+
 //ここまで来たら、接続成功
 echo '接続成功<br />';
 
@@ -21,9 +37,22 @@ $db->setErrorHandling(PEAR_ERROR_DIE);
 $db->setFetchMode(MDB2_FETCHMODE_ASSOC);
 
 $sql = 'select e.empno, e.ename, e.yomi, e.job, m.ename mgr, e.hiredate, e.sal, e.comm, dname from employees e left outer join employees';
-$sql .= ' m on e.mgr = m.empno join departments d on e.deptno = d.deptno order by e.empno';
+$sql .= ' m on e.mgr = m.empno join departments d on e.deptno = d.deptno ';
 
+//検索キーがあればプレーすホルダーを使う
+if(mb_strlen($key) > 0){
+
+	$key = '%' . $key . '%'; //部分一致をOKにする
+	
+	$sql .='where e.ename like ? order by e.empno';
+	$sth = $db->prepare($sql);
+	$result = $sth->execute(array($key));
+	$rows = $result->fetchAll();
+
+}else{
+$sql .= 'order by e.empno';
 $rows = $db->queryAll($sql);
+}
 
 /*
 foreach($rows as $row){
@@ -46,6 +75,11 @@ foreach($rows as $row){
 </style>
 </head>
 <body>
+
+<form action="<?php echo $_SERVER['SCRIPT_NAME'] ?>" method='post'>
+<input type="text" name="key" size='10' />
+<input type="submit" name='submit' value="検索" />
+</form>
 
 <table border='1'>
 	<tr>
