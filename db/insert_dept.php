@@ -42,6 +42,10 @@ if(count($errors) == 0){
 	// departments表に追加(deptnoは現在の最大値+10を設定)
 	$sth = $db->prepare('INSERT INTO departments(deptno, dname, loc) values(?,?,?)');
 	$sth->execute(array($max_deptno+10, $_POST['dname'], $_POST['loc']));
+
+	//1度書き込んだ後、ブラウザのreloadで、同じデータが書き込まれてしまう問題
+	header("Location: http://". $_SERVER['HTTP_HOST']. $_SERVER['SCRIPT_NAME']);
+				exit;
 }
 
 }else{
