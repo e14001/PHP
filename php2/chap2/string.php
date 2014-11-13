@@ -14,3 +14,13 @@ printf('ZIP is %05d and the date is %02d/%02d/%d<br ?>', $zip, $month, $day, $ye
 $min = -40;
 $max = 40;
 printf('The computer can operate between %+d and %+d degress Celsius. <br />', $min, $max);
+
+// mb_internal_encoding("UTF-8");
+// mb_language("ja");
+// setlocale(LC_ALL, "ja_JP.UTF-8");
+
+$stra = 'abcdef';
+$strb = 'あいうえお';
+echo strlen($stra) . '<br />';
+echo strlen($strb) . '<br />';
+echo mb_strlen($strb) . '<br />';
