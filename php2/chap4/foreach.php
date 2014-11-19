@@ -9,14 +9,23 @@ $mealjp = array('朝食' => 'トースト',
 				'おやつ' => 'ドーナツ',
 				'夕食' => 'すき焼き');
 
+//array_key_exists('breakfast', $meal);
+
+$row_color = array('red', 'green');
+$color_index = 0;
 print "<table border='1'>\n";
 
 
 foreach($meal as $key => $value){
-	print "<tr><td>$key</td><<td>$value</td></tr>\n";
+	print '<tr bgcolor="' . $row_color[$color_index] . '">';
+	print "<td>$key</td><<td>$value</td></tr>\n";
+	$color_index = 1 - $color_index;
 }
+
 foreach($mealjp as $key => $value){
-	print "<tr><td>$key</td><<td>$value</td></tr>\n";
+	print '<tr bgcolor="' . $row_color[$color_index] . '">';
+	print "<td>$key</td><<td>$value</td></tr>\n";
+	$color_index = 1 - $color_index;
 }
 
 print "</table>\n";
