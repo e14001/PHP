@@ -25,7 +25,9 @@ foreach($meal as $key => $value){
 print '</p>';
 
 sort($dinner);
-sort($meal);
+//sort($meal);
+//asort($meal);
+ksort($meal);
 
 print "After Sorting:<br />\n";
 foreach($dinner as $key => $value){
