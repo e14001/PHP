@@ -1,4 +1,8 @@
 <?php
+$dinner = array('Sweet Corn and Asparagus',
+				'Lemon Chicken',
+				'Braised Bamboo Fungus');
+
 $meal = array('breakfast' => 'Walnut Bun',
 				'lunch' => 'Cashew Nuts and White Mashrooms',
 				'snack' => 'Dried Mulberries',
@@ -8,6 +12,31 @@ $mealjp = array('朝食' => 'トースト',
 				'昼食' => 'スパゲッティ',
 				'おやつ' => 'ドーナツ',
 				'夕食' => 'すき焼き');
+
+print "Before Sorting:<br />\n";
+foreach($dinner as $key => $value){
+	print "\$dinner: $key $value<br />\n";
+}
+print '</p>';
+print '<p>';
+foreach($meal as $key => $value){
+	print "\$meal: $key $value<br />\n";
+}
+print '</p>';
+
+sort($dinner);
+sort($meal);
+
+print "After Sorting:<br />\n";
+foreach($dinner as $key => $value){
+	print "\$dinner: $key $value<br />\n";
+}
+print '</p>';
+print '<p>';
+foreach($meal as $key => $value){
+	print "\$meal: $key $value<br />\n";
+}
+print '</p>';
 
 //array_key_exists('breakfast', $meal);
 
