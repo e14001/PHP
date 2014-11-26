@@ -1,4 +1,6 @@
 <?php
+$sweets = array('シュークリーム', 'ショートケーキ', 'モンブラン', 'チョコレートケーキ');
+
 // フォームがサブミットされたときに何かをする 
 function process_form(){
 	print "Hello, ". $_POST['my_name'];
@@ -20,8 +22,16 @@ function show_form($errors = ''){
 <p>
 メールアドレス: <input type="text" name="email">
 </p>
-<p>年齢: <input type="text" name="age" size="2">
+<p>年齢: <input type="text" name="age" size="2"></p>
+<p>デザート選択してください:<select name="order">
+<?php
+foreach($GLOBALS['sweets'] as $choice){
+	print "<option>$choice</option>\n";
+}
+?>
+</select>
 </p>
+
 <input type="submit" value="Say Hello">
 <input type="hidden" name="_submit_check" value="1">
 </form>
