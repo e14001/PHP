@@ -15,8 +15,13 @@ function show_form($errors = ''){
 ?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-Your name: <input type="text" name="my_name">
+お名前: <input type="text" name="my_name">
 <br />
+<p>
+メールアドレス: <input type="text" name="email">
+</p>
+<p>年齢: <input type="text" name="age" size="2">
+</p>
 <input type="submit" value="Say Hello">
 <input type="hidden" name="_submit_check" value="1">
 </form>
@@ -31,6 +36,21 @@ function validate_form(){
 	if(mb_strlen($_POST['my_name']) < 3){
 		$errors[]= '名前は3文字以上で入力してください';
 	}
+
+	// メールアドレスが入力されているかチェック
+	if(strlen($_POST['email']) == 0){
+		$errors[] = 'メールアドレスを入力してください';
+	}elseif(!preg_match('/^[^@\s]+@([-a-z0-9]+\.)+[a-z]{2,}$/i', $_POST['email'])){
+	$errors[] = '正しいメールアドレスを入力してください';
+}
+
+	// 整数チェック
+	if($_POST['age'] != strval(intval($_POST['age']))){
+		$errors[] = '年齢は数値で入力してください';
+	}elseif($_POST['age'] < 18 || $_POST['age'] >65){
+		$errors[] = '年齢は18歳以上65歳以下で入力してください';
+	}
+
 	// エラーメッセージの配列（エラーがなければ空）を返す
 	return $errors;
 }
