@@ -1,10 +1,17 @@
 <?php
+$main_dishes = array('katsu' => 'カツ丼',
+				'ten' => '天丼',
+				'oya' => '親子丼',
+				'tanin' => '他人丼',
+				'soba' => '沖縄そば',
+				'maku' => '幕の内');
+
 $sweets = array('Cream Puff' => 'シュークリーム',
 				'Short Cake' => 'ショートケーキ', 
 				'Mont Branc' => 'モンブラン', 
 				'Chocolate Cake' => 'チョコレートケーキ');
 
-if($_POST['_submit_check']){
+if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults = $_POST;
 }else{
 	$defaults = array();
@@ -12,6 +19,7 @@ if($_POST['_submit_check']){
 	$defaults['email'] = '';
 	$defaults['age'] = '';
 	$defaults['order'] = 'Cream Puff';
+	$defaults['main_dish'] = array('katsu');
 }
 
 // フォームがサブミットされたときに何かをする 
@@ -21,7 +29,7 @@ function process_form(){
 
 // フォームを表示
 function show_form($errors = ''){
-	global $defaults;
+	global $defaults, $main_dishes;
 	// 何かエラーが渡されると、それを出力
 	if($errors){
 		print '以下のエラーを修正してください:<ul><li>';
@@ -31,12 +39,37 @@ function show_form($errors = ''){
 ?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-お名前: <input type="text" name="my_name" value="<?php echo $defaults['my_name']; ?>">
+お名前: <input type="text" name="my_name" value="<?php echo h($defaults['my_name']); ?>">
 <br />
 <p>
-メールアドレス: <input type="text" name="email" value="<?php echo $defaults['email']; ?>">
+
+メールアドレス: <input type="text" name="email" value="<?php echo h($defaults['email']); ?>">
 </p>
-<p>年齢: <input type="text" name="age" size="2" value="<?php echo $defaults['age']; ?>"></p>
+
+<p>年齢: <input type="text" name="age" size="2" value="<?php echo h($defaults['age']); ?>"></p>
+
+<p>料理を選択してください (複数選択可) : </p>
+<p>
+<select name="main_dish[]" multiple="multiple">
+<?php
+$selected_options = array();
+foreach($defaults['main_dish'] as $option){
+	$selected_options[$option] = true;
+}
+
+// <option>タグを出力
+foreach($main_dishes as $option => $label){
+	print '<option value="' . h($option) . '"';
+	if(array_key_exists($option, $selected_options)){
+		print ' selected="selected"';
+	}
+	print '>' . h($label) . '</option>';
+	print "\n";
+}
+?>
+</select>
+</p>
+
 <p>デザート選択してください:<select name="order">
 <?php
 foreach($GLOBALS['sweets'] as $key =>$choice){
