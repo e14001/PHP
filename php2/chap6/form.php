@@ -1,5 +1,18 @@
 <?php
-$sweets = array('シュークリーム', 'ショートケーキ', 'モンブラン', 'チョコレートケーキ');
+$sweets = array('Cream Puff' => 'シュークリーム',
+				'Short Cake' => 'ショートケーキ', 
+				'Mont Branc' => 'モンブラン', 
+				'Chocolate Cake' => 'チョコレートケーキ');
+
+if($_POST['_submit_check']){
+	$defaults = $_POST;
+}else{
+	$defaults = array();
+	$defaults['my_name'] = '';
+	$defaults['email'] = '';
+	$defaults['age'] = '';
+	$defaults['order'] = 'Cream Puff';
+}
 
 // フォームがサブミットされたときに何かをする 
 function process_form(){
@@ -8,6 +21,7 @@ function process_form(){
 
 // フォームを表示
 function show_form($errors = ''){
+	global $defaults;
 	// 何かエラーが渡されると、それを出力
 	if($errors){
 		print '以下のエラーを修正してください:<ul><li>';
@@ -17,16 +31,20 @@ function show_form($errors = ''){
 ?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-お名前: <input type="text" name="my_name">
+お名前: <input type="text" name="my_name" value="<?php echo $defaults['my_name']; ?>">
 <br />
 <p>
-メールアドレス: <input type="text" name="email">
+メールアドレス: <input type="text" name="email" value="<?php echo $defaults['email']; ?>">
 </p>
-<p>年齢: <input type="text" name="age" size="2"></p>
+<p>年齢: <input type="text" name="age" size="2" value="<?php echo $defaults['age']; ?>"></p>
 <p>デザート選択してください:<select name="order">
 <?php
-foreach($GLOBALS['sweets'] as $choice){
-	print "<option>$choice</option>\n";
+foreach($GLOBALS['sweets'] as $key =>$choice){
+	print "<option value=\"" .$key .'"';
+	if($key == $defaults['order']){
+		print ' selected="selected"';
+	}
+	print ">$choice</option>\n";
 }
 ?>
 </select>
@@ -61,8 +79,17 @@ function validate_form(){
 		$errors[] = '年齢は18歳以上65歳以下で入力してください';
 	}
 
+	// orderでの選択のチェック
+	if(!array_key_exists($_POST['order'], $GLOBALS['sweets'])){
+		$errors[] = 'メニューから選択してください';
+	}
+
 	// エラーメッセージの配列（エラーがなければ空）を返す
 	return $errors;
+}
+
+function h($str){
+	return htmlentities($str, ENT_QUOTES, 'UTF-8');
 }
 ?>
 
