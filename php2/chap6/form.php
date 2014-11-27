@@ -1,4 +1,8 @@
 <?php
+// ホームヘルパー関数のコードをインクルード
+require_once 'formhelpers.php';
+// show_form(), validate_form()及びprocess_form()で、参照するので以下の配列はグローバル宣言する
+
 $main_dishes = array('katsu' => 'カツ丼',
 				'ten' => '天丼',
 				'oya' => '親子丼',
@@ -121,9 +125,9 @@ function validate_form(){
 	return $errors;
 }
 
-function h($str){
-	return htmlentities($str, ENT_QUOTES, 'UTF-8');
-}
+// function h($str){
+// 	return htmlentities($str, ENT_QUOTES, 'UTF-8');
+// }
 ?>
 
 <!DOCTYPE html>
@@ -134,14 +138,19 @@ function h($str){
 </head>
 <body>
 	<?php
+	// メインページのロジック:
+	// - フォームがサブミットされた場合は検証して処理、
+	// - サブミットされなかった場合はフォームを表示
 	// サブミットされたフォームパラメータをベースになすべきことをするロジック
-	if(array_key_exists('_submit_check', $_POST)){ // サブミットされた？
-		if($form_errors = validate_form()){ //  $_POSTのチェック
+	if(array_key_exists('_submit_check', $_POST)){
+		// サブミットされたデータが正しければ、それを処理
+		if($form_errors = validate_form()){ 
 			show_form($form_errors); // フォームを再表示
 		}else{
 			process_form(); // 処理を実行
 		}
 	}else{
+		// サブミットされていなければフォームを表示
 			show_form(); // フォームを表示
 	}
 	?>
