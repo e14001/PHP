@@ -7,7 +7,7 @@ function h($str){
 // テキストボックスを出力
 function input_text($element_name, $value){
 	print '<input type="text" name="' . $element_name . '"value="';
-	print h($values[$element_name]) . '"/>';
+	print h($value[$element_name]) . '"/>';
 }
 
 // サブミットボタンを出力

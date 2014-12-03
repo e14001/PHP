@@ -15,6 +15,17 @@ $sweets = array('Cream Puff' => 'シュークリーム',
 				'Mont Branc' => 'モンブラン', 
 				'Chocolate Cake' => 'チョコレートケーキ');
 
+
+// フォームがサブミットされたときに何かをする 
+function process_form(){
+	print "Hello, ". $_POST['my_name'];
+}
+
+// フォームを表示
+function show_form($errors = ''){
+	global $main_dishes;
+
+// フォームがサブミットされたら、サブミットされたパラメータからデフォルト値を取得
 if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults = $_POST;
 }else{
@@ -24,36 +35,51 @@ if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults['age'] = '';
 	$defaults['order'] = 'Cream Puff';
 	$defaults['main_dish'] = array('katsu');
+	$defaults['delivery'] = 'yes';
+	$defailts['size'] = 'medium';
 }
 
-// フォームがサブミットされたときに何かをする 
-function process_form(){
-	print "Hello, ". $_POST['my_name'];
-}
-
-// フォームを表示
-function show_form($errors = ''){
-	global $defaults, $main_dishes;
 	// 何かエラーが渡されると、それを出力
 	if($errors){
-		print '以下のエラーを修正してください:<ul><li>';
-		print implode('</li><li>', $errors);
-		print '</li></ul>';
+		$error_text = '<tr><td>エラーを修正してください:';
+		$error_text .= '</td><td><ul><li>';
+		$error_text .=  implode('</li><li>', $errors);
+		$error_text .= '</li></ul></td></tr>';
+	}else{
+		// エラーがなければ、$error_textはブランクにする
+		$error_text = '';
 	}
 ?>
 
 <form method="POST" action="<?php echo $_SERVER['SCRIPT_NAME']; ?>">
-お名前: <input type="text" name="my_name" value="<?php echo h($defaults['my_name']); ?>">
-<br />
-<p>
+<table>
+<?php print $error_text; ?>
 
-メールアドレス: <input type="text" name="email" value="<?php echo h($defaults['email']); ?>">
-</p>
+<tr>
+<td>お名前:</td> 
+<td><?php input_text('my_name', $defaults); ?></td>
+</tr>
 
-<p>年齢: <input type="text" name="age" size="2" value="<?php echo h($defaults['age']); ?>"></p>
+<tr>
+<td>メールアドレス:</td>
+<td><?php input_text('email', $defaults); ?></td>
+</tr>
 
-<p>料理を選択してください (複数選択可) : </p>
-<p>
+<tr>
+<td>年齢:</td>
+<td><?php input_text('age', $defaults); ?></td>
+</tr>
+
+<tr><td>Size:</td>
+<td>
+<?php input_radiocheck('radio', 'size', $defaults, 'small'); ?>Small<br />
+<?php input_radiocheck('radio', 'size', $defaults, 'medium'); ?>Medium<br />
+<?php input_radiocheck('radio', 'size', $defaults, 'large'); ?>Large
+</td></tr>
+
+<tr>
+<td>料理を選択してください (複数選択可) :</td> 
+<td>
 <select name="main_dish[]" multiple="multiple">
 <?php
 $selected_options = array();
@@ -72,9 +98,13 @@ foreach($main_dishes as $option => $label){
 }
 ?>
 </select>
-</p>
+</td>
+</tr>
 
-<p>デザート選択してください:<select name="order">
+<tr>
+<td>デザート選択してください:</td>
+<td>
+<select name="order">
 <?php
 foreach($GLOBALS['sweets'] as $key =>$choice){
 	print "<option value=\"" .$key .'"';
@@ -85,9 +115,16 @@ foreach($GLOBALS['sweets'] as $key =>$choice){
 }
 ?>
 </select>
-</p>
+</td>
+</tr>
 
+<tr>
+<td colspan="2" align="center">
 <input type="submit" value="Say Hello">
+</td>
+</tr>
+
+</table>
 <input type="hidden" name="_submit_check" value="1">
 </form>
 
