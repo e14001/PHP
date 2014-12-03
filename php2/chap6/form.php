@@ -36,7 +36,7 @@ if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults['order'] = 'Cream Puff';
 	$defaults['main_dish'] = array('katsu');
 	$defaults['delivery'] = 'yes';
-	$defailts['size'] = 'medium';
+	$defaults['size'] = 'medium';
 }
 
 	// 何かエラーが渡されると、それを出力
@@ -80,24 +80,7 @@ if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 <tr>
 <td>料理を選択してください (複数選択可) :</td> 
 <td>
-<select name="main_dish[]" multiple="multiple">
-<?php
-$selected_options = array();
-foreach($defaults['main_dish'] as $option){
-	$selected_options[$option] = true;
-}
-
-// <option>タグを出力
-foreach($main_dishes as $option => $label){
-	print '<option value="' . h($option) . '"';
-	if(array_key_exists($option, $selected_options)){
-		print ' selected="selected"';
-	}
-	print '>' . h($label) . '</option>';
-	print "\n";
-}
-?>
-</select>
+<?php input_select('main_dish', $defaults, $main_dishes, true); ?>
 </td>
 </tr>
 
