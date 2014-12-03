@@ -23,11 +23,14 @@ function process_form(){
 
 // フォームを表示
 function show_form($errors = ''){
-	global $main_dishes;
+	global $main_dishes, $sweets;
 
 // フォームがサブミットされたら、サブミットされたパラメータからデフォルト値を取得
 if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults = $_POST;
+	if(!isset($_POST['delivery'])){
+		$defaults['delivery'] = 'no';
+	}
 }else{
 	$defaults = array();
 	$defaults['my_name'] = '';
@@ -37,6 +40,7 @@ if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 	$defaults['main_dish'] = array('katsu');
 	$defaults['delivery'] = 'yes';
 	$defaults['size'] = 'medium';
+	$defaults['comments'] = '';
 }
 
 	// 何かエラーが渡されると、それを出力
@@ -87,23 +91,29 @@ if(isset($_POST['_submit_check']) && $_POST['_submit_check'] == 1){
 <tr>
 <td>デザート選択してください:</td>
 <td>
-<select name="order">
-<?php
-foreach($GLOBALS['sweets'] as $key =>$choice){
-	print "<option value=\"" .$key .'"';
-	if($key == $defaults['order']){
-		print ' selected="selected"';
-	}
-	print ">$choice</option>\n";
-}
-?>
-</select>
+<?php input_select('order', $defaults, $sweets); ?>
 </td>
 </tr>
 
 <tr>
+<td>デリバリーしますか？</td>
+<td>
+<?php input_radiocheck('checkbox', 'delivery', $defaults, 'yes'); ?>Yes
+</td>
+</tr>
+
+<tr>
+<td>その他の要望<br />
+デリバリーしてほしい場合は、ここに住所を記入してください :</td>
+<td>
+<?php input_textarea('comments', $defaults); ?>
+</td>
+</tr>
+
+
+<tr>
 <td colspan="2" align="center">
-<input type="submit" value="Say Hello">
+<?php input_submit('save', 'order'); ?>
 </td>
 </tr>
 
