@@ -18,10 +18,21 @@ $db->setErrorHandling(PEAR_ERROR_DIE);
 $db->setFetchMode(MDB2_FETCHMODE_OBJECT);
 
 $_POST['dish_serch'] = '卵丼';
-$sql = 'SELECT dish_name, price FROM dishes WHERE dish_name LIKE ?';
-$sth = $db->prepare($sql);
-$result = $sth->execute(array($_POST['dish_serch']));
-$matches = $result->fetchAll();
+// $sql = 'SELECT dish_name, price FROM dishes WHERE dish_name LIKE ?';
+// $sth = $db->prepare($sql);
+// $result = $sth->execute(array($_POST['dish_serch']));
+// $matches = $result->fetchAll();
+
+// 最初は、値を標準クォーティングする
+$dish = $db->quote($_POST['dish_serch']);
+
+// そして、アンダースコアと％記号の前にバックスラッシュを置く
+$dish = strtr($dish, array('_' => '\_', '%' => '\%'));
+
+// すると、$dishは浄化されて、正しいクエリを補完することができる
+// $dish = '%' . $dish . '%';
+$sql = 'SELECT dish_name, price FROM dishes WHERE dish_name like' . $dish;
+$matches = $db->queryAll($sql);
 foreach($matches as $row){
 	print "$row->dish_name, $row->price<br />\n";
 }
